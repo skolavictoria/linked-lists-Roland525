@@ -111,31 +111,36 @@ public:
     }
 
     void sort(){
-        if (first_elem == nullptr){
+        if (first_elem == nullptr || first_elem->get_next_member() == nullptr){
             return;
         }
-    Node* current = first_elem;
-    Node* back = nullptr;
-    Node* next = nullptr;
-    int a = 0;
-    while(a == 0){
-        while(current->get_next_member() != nullptr) {
-            next = current->get_next_member();
-            if(current->get_value() > next->get_value()) {
-                current->add_next_member(next->get_next_member());
-                next->add_next_member(current);
-
-                if (back == nullptr){
-                    first_elem = next;
+    
+        bool swapped;
+        do {
+            swapped = false;
+            Node* current = first_elem;
+            Node* prev = nullptr;
+    
+            while (current->get_next_member() != nullptr) {
+                Node* next = current->get_next_member();
+                if (current->get_value() > next->get_value()) {
+                    // Меняем местами
+                    if (prev != nullptr) {
+                        prev->add_next_member(next);
+                    } else {
+                        first_elem = next;
+                    }
+                    current->add_next_member(next->get_next_member());
+                    next->add_next_member(current);
+                    
+                    swapped = true;
                 }
-                else{
-                    back->add_next_member(next);
-                }
+                prev = current;
+                current = current->get_next_member();
             }
-        }
-        a = 1;
+        } while (swapped);
     }
-}
+    
 
     void show(){
         Node* current = first_elem;
@@ -146,6 +151,10 @@ public:
 
         }
         cout << endl;
+    }
+
+    void Reverse(){
+        // ne ebu kak sdelat
     }
 };
 
